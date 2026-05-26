@@ -1,0 +1,304 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.tl-wrap{padding:0 0 3rem;font-family:var(--font-sans)}
+.tl-hero{background:linear-gradient(135deg,#042C53 0%,#0E4A8A 60%,#185FA5 100%);border-radius:var(--border-radius-lg);padding:2rem;margin-bottom:1.75rem;color:#fff;position:relative;overflow:hidden}
+.tl-hero::after{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(55,138,221,0.15)}
+.tl-hero::before{content:'';position:absolute;bottom:-40px;left:20px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.tl-hero h1{font-size:20px;font-weight:500;margin-bottom:5px;position:relative}
+.tl-hero p{font-size:13px;opacity:.75;line-height:1.6;max-width:500px;position:relative}
+.tl-hero .flag{font-size:30px;margin-bottom:.6rem;display:block}
+.tl-hero .count{position:absolute;top:1.5rem;right:1.75rem;font-size:32px;font-weight:300;opacity:.25}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:1.25rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary)}
+.legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.75rem}
+.fbtn{padding:5px 13px;border-radius:20px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;cursor:pointer;transition:all .15s}
+.fbtn.on,.fbtn:hover{background:#185FA5;color:#fff;border-color:#185FA5}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin:1.5rem 0 .75rem 0;padding-left:52px;opacity:.7}
+.timeline{position:relative;padding-left:50px}
+.timeline::before{content:'';position:absolute;left:18px;top:8px;bottom:8px;width:3px;background:linear-gradient(to bottom,#185FA5 0%,#85B7EB 40%,#378ADD 70%,#185FA5 100%);border-radius:2px}
+.tl-item{position:relative;margin-bottom:1.4rem;transition:opacity .25s}
+.tl-item.hidden{display:none}
+.tl-num{position:absolute;left:-39px;top:13px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff;border:2.5px solid var(--color-background-primary);z-index:2}
+.tl-card{background:var(--color-background-primary);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s}
+.tl-card:hover{border-color:var(--color-border-primary);transform:translateX(4px)}
+.tl-card.open{border-color:#378ADD}
+.tl-head{display:flex;align-items:flex-start;gap:9px;padding:11px 13px}
+.tl-badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:11px;background:#E6F1FB;color:#0C447C;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.tl-cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.tl-titles{flex:1;min-width:0}
+.tl-title{font-size:14px;font-weight:500;color:var(--color-text-primary);line-height:1.35}
+.tl-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;line-height:1.35}
+.tl-chev{margin-left:auto;color:var(--color-text-secondary);font-size:14px;flex-shrink:0;transition:transform .2s;padding-top:2px}
+.tl-card.open .tl-chev{transform:rotate(180deg)}
+.tl-body{display:none;border-top:1px solid var(--color-border-tertiary)}
+.tl-card.open .tl-body{display:block}
+.img-zone{position:relative;height:200px;background:#dde8f4;overflow:hidden}
+.img-zone img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+.img-zone .icap{position:absolute;bottom:0;left:0;right:0;padding:4px 10px;background:rgba(4,44,83,.68);color:#fff;font-size:10.5px;line-height:1.35}
+.img-zone .ipl{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+.img-zone .ipl span{font-size:46px}
+.img-zone .ipl p{font-size:12px;color:#185FA5;text-align:center;padding:0 12px}
+.yt-btn{display:flex;align-items:center;gap:8px;margin:10px 13px 0;padding:8px 13px;border-radius:var(--border-radius-md);border:1px solid #FF0000;color:#CC0000;background:var(--color-background-primary);font-size:12.5px;cursor:pointer;text-decoration:none;transition:background .15s}
+.yt-btn:hover{background:#FFF0F0}
+.yt-icon{width:22px;height:15px;background:#FF0000;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.yt-icon::after{content:'';border-style:solid;border-width:4.5px 0 4.5px 9px;border-color:transparent transparent transparent #fff}
+.tl-txt{padding:11px 13px;font-size:13px;color:var(--color-text-secondary);line-height:1.7}
+.tl-txt p{margin-bottom:7px}.tl-txt p:last-child{margin-bottom:0}
+.tl-txt strong{color:var(--color-text-primary);font-weight:500}
+.tl-txt em{font-style:italic}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap;padding:0 13px 11px}
+.tl-tag{font-size:10.5px;padding:2px 7px;border-radius:10px;border:.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+.era-divider{display:flex;align-items:center;gap:10px;margin:1.5rem 0;padding-left:0}
+.era-divider span{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;color:var(--color-text-secondary)}
+.era-divider::before,.era-divider::after{content:'';flex:1;height:1px;background:var(--color-border-tertiary)}
+</style>
+
+<div class="tl-wrap">
+<div class="tl-hero">
+  <div class="count">20</div>
+  <span class="flag">🇮🇹</span>
+  <h1>La democrazia italiana — 20 tappe fondamentali</h1>
+  <p>Dal 1797 ai giorni nostri. Clicca ogni evento per aprire immagine, link video e approfondimento.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>Politico-istituzionale</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Sociale e civile</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div>Guerra e crisi</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Fondativo/Costituente</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#C0973A"></div>Diritti e riforme</div>
+</div>
+
+<div class="filters">
+  <button class="fbtn on" onclick="filt('all',this)">Tutti (20)</button>
+  <button class="fbtn" onclick="filt('pol',this)">⚖️ Politico</button>
+  <button class="fbtn" onclick="filt('soc',this)">🤝 Sociale</button>
+  <button class="fbtn" onclick="filt('war',this)">⚔️ Guerra</button>
+  <button class="fbtn" onclick="filt('cost',this)">📜 Costituente</button>
+  <button class="fbtn" onclick="filt('dir',this)">⭐ Diritti</button>
+</div>
+
+<div id="tl" class="timeline"></div>
+</div>
+
+<script>
+const EV=[
+/* ── ORIGINI ── */
+{era:"Le origini (1797–1861)",y:"1797–1799",cat:"pol",col:"#378ADD",
+ title:"Le Repubbliche Giacobine",sub:"Napoleone porta la Rivoluzione in Italia",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg/480px-Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg",
+ icap:"Napoleone Bonaparte — J.L. David, 1812 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=RvIrEHuiYZE",ytlbl:"Napoleone e l'Italia — video",
+ txt:"<p>Con le campagne napoleoniche nascono le prime Repubbliche moderne: <strong>Cisalpina, Romana, Partenopea</strong>. Per la prima volta si applicano uguaglianza davanti alla legge, libertà di stampa, abolizione dei privilegi feudali.</p><p>Queste esperienze, pur brevi, seminano i germi del Risorgimento: <em>sovranità popolare, diritti civili, separazione dei poteri</em>.</p>",
+ tags:["Napoleone","Rivoluzione Francese","Prima Costituzione"]},
+
+{y:"1820–1848",cat:"soc",col:"#1D9E75",
+ title:"Moti Risorgimentali e Carboneria",sub:"Il popolo italiano si risveglia",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Giuseppe_Garibaldi.jpg/400px-Giuseppe_Garibaldi.jpg",
+ icap:"Giuseppe Garibaldi, eroe dei Due Mondi (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=lrNS93VnLG8",ytlbl:"Il Risorgimento — RAI Cultura",
+ txt:"<p>La <strong>Carboneria</strong> e la <em>Giovine Italia</em> di <strong>Mazzini</strong> diffondono ideali di libertà e unità. I Moti del <strong>1848</strong> — la Primavera dei Popoli — scuotono l'intera Europa e strappano le prime carte costituzionali.</p>",
+ tags:["Carboneria","Mazzini","Garibaldi","1848"]},
+
+{y:"4 Marzo 1848",cat:"pol",col:"#378ADD",
+ title:"Lo Statuto Albertino",sub:"La prima Costituzione del futuro Stato italiano",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Statuto_Albertino_manoscritto.jpg/480px-Statuto_Albertino_manoscritto.jpg",
+ icap:"Manoscritto originale dello Statuto Albertino (Archivio di Stato / Wikimedia)",
+ yturl:"https://www.youtube.com/watch?v=UZiEqeqK2kI",ytlbl:"Lo Statuto Albertino spiegato",
+ txt:"<p>Carlo Alberto promulga lo Statuto: monarchia costituzionale, Parlamento bicamerale, voto censitario. Pur limitato, resterà la carta fondamentale dell'Italia unita <strong>dal 1861 al 1948</strong>.</p>",
+ tags:["Carlo Alberto","Parlamento","Statuto","Monarchia Costituzionale"]},
+
+{y:"17 Marzo 1861",cat:"pol",col:"#378ADD",
+ title:"Nasce il Regno d'Italia",sub:"Vittorio Emanuele II primo re — solo il 2,5% vota",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Vittorio_Emanuele_II_of_Italy.jpg/400px-Vittorio_Emanuele_II_of_Italy.jpg",
+ icap:"Vittorio Emanuele II, primo re d'Italia (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=9DZGrHm9Mtg",ytlbl:"L'Unità d'Italia — documentario",
+ txt:"<p>La penisola è finalmente unita, ma la democrazia è ancora élitaria. Solo il <strong>2,5% della popolazione</strong> ha diritto di voto. Il Parlamento esiste, ma il potere reale rimane al re e a ristrette classi dirigenti.</p>",
+ tags:["Cavour","Garibaldi","Risorgimento","1861"]},
+
+/* ── REGNO D'ITALIA ── */
+{era:"Il Regno d'Italia (1861–1922)",y:"1912",cat:"soc",col:"#1D9E75",
+ title:"Suffragio universale maschile",sub:"Da 3 milioni a 8,6 milioni di elettori",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Giovanni_Giolitti.jpg/400px-Giovanni_Giolitti.jpg",
+ icap:"Giovanni Giolitti, presidente del Consiglio (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=KVMQFp2tBhE",ytlbl:"L'età giolittiana",
+ txt:"<p>La riforma <strong>Giolitti</strong> estende il voto a quasi tutti i maschi adulti. I partiti di massa — socialisti e cattolici — entrano per la prima volta nella politica. Le <strong>donne</strong> restano escluse fino al 1945.</p>",
+ tags:["Giolitti","Suffragio","Democrazia","1912"]},
+
+{y:"1915–1918",cat:"war",col:"#D85A30",
+ title:"Prima Guerra Mondiale",sub:"600.000 caduti, democrazia in crisi",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Italian_troops_WWI.jpg/480px-Italian_troops_WWI.jpg",
+ icap:"Soldati italiani sul fronte della Grande Guerra (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=xfpGSf9CDHE",ytlbl:"L'Italia nella Grande Guerra",
+ txt:"<p>L'Italia entra in guerra <em>senza consultare il Parlamento</em>. La <strong>vittoria mutilata</strong>, l'inflazione e il trauma dei caduti creano un clima esplosivo. Il biennio rosso (1919–20) e la debolezza liberale aprono la strada al fascismo.</p>",
+ tags:["Grande Guerra","Caporetto","Vittoria Mutilata","1918"]},
+
+/* ── FASCISMO ── */
+{era:"Fascismo e Resistenza (1922–1945)",y:"28 Ott 1922",cat:"war",col:"#D85A30",
+ title:"Marcia su Roma — il Fascismo al potere",sub:"La democrazia liberale crolla",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Bundesarchiv_Bild_102-00268%2C_Benito_Mussolini.jpg/400px-Bundesarchiv_Bild_102-00268%2C_Benito_Mussolini.jpg",
+ icap:"Benito Mussolini, 1923 (Bundesarchiv / Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=tPW1bFJPCEY",ytlbl:"La Marcia su Roma",
+ txt:"<p>Il re affida il governo a <strong>Mussolini</strong>. Tra il 1922 e il 1926, le <strong>leggi fascistissime</strong> aboliscono partiti, libertà di stampa ed elezioni libere. Inizia un ventennio di dittatura.</p>",
+ tags:["Fascismo","Mussolini","Dittatura","1922"]},
+
+{y:"1938",cat:"war",col:"#D85A30",
+ title:"Leggi Razziali",sub:"Lo Stato discrimina i cittadini ebrei",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Leggi_razziali_1938_manifesto.jpg/440px-Leggi_razziali_1938_manifesto.jpg",
+ icap:"Manifesto delle leggi razziali fasciste, 1938 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=AEjD5CGmRoQ",ytlbl:"Le leggi razziali — RAI Scuola",
+ txt:"<p>Le <strong>leggi razziali del 1938</strong> escludono i cittadini ebrei dalla vita pubblica: vietano loro di lavorare, studiare, sposarsi con non ebrei. Sono il punto più basso della negazione dei diritti in Italia, e preparano la strada alla persecuzione durante l'occupazione nazista.</p><p>Ricordare queste leggi è fondamentale: la <strong>Costituzione del 1948</strong> nasce anche come risposta esplicita a questa barbarie.</p>",
+ tags:["Leggi Razziali","Persecuzione","Antifascismo","1938"]},
+
+{y:"1943–1945",cat:"war",col:"#D85A30",
+ title:"Resistenza e Liberazione",sub:"300.000 partigiani riconquistano la libertà",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Partigiani_Milano_1945.jpg/480px-Partigiani_Milano_1945.jpg",
+ icap:"Partigiani a Milano, 25 aprile 1945 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=wBNpnTVaNdg",ytlbl:"La Resistenza italiana",
+ txt:"<p>Dopo l'<strong>8 settembre 1943</strong>, comunisti, socialisti, cattolici e liberali combattono uniti. Il <strong>25 aprile 1945</strong> — Festa della Liberazione — segna la rinascita morale del Paese. I valori partigiani entrano nella Costituzione.</p>",
+ tags:["Resistenza","Partigiani","25 Aprile","Liberazione"]},
+
+/* ── REPUBBLICA ── */
+{era:"Nascita della Repubblica (1946–1948)",y:"2–3 Giu 1946",cat:"cost",col:"#7F77DD",
+ title:"Referendum: Repubblica o Monarchia?",sub:"Per la prima volta votano anche le donne",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Referendum_2_giugno_1946.jpg/480px-Referendum_2_giugno_1946.jpg",
+ icap:"Scheda del Referendum istituzionale del 1946 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=WPJJnHZVP2g",ytlbl:"Il Referendum del 1946 — Rai Storia",
+ txt:"<p>Votano per la prima volta le <strong>donne</strong> (12,7 milioni). Partecipazione: <strong>89%</strong>. La <strong>Repubblica</strong> vince con il 54,3%. Il re Umberto II parte in esilio. Nasce l'Assemblea Costituente.</p>",
+ tags:["Referendum","Repubblica","Voto alle donne","1946"]},
+
+{y:"22 Dic 1947",cat:"cost",col:"#7F77DD",
+ title:"L'Assemblea Costituente approva la Costituzione",sub:"575 articoli, 18 mesi di lavoro",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Assemblea_Costituente_italiana.jpg/480px-Assemblea_Costituente_italiana.jpg",
+ icap:"L'Assemblea Costituente riunita a Montecitorio (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=zT_XqHq5NQw",ytlbl:"I padri costituenti — documentario",
+ txt:"<p>Dopo 18 mesi di lavoro, i <strong>556 costituenti</strong> — tra cui <strong>21 donne</strong> — approvano la Costituzione il 22 dicembre 1947. Entra in vigore il 1° gennaio 1948. L'art. 1: <em>«L'Italia è una Repubblica democratica, fondata sul lavoro»</em>.</p><p>Tra i padri costituenti: <strong>De Gasperi, Togliatti, Nenni, La Pira, Nilde Iotti</strong>. Un documento nato dal dialogo tra culture diverse.</p>",
+ tags:["Costituente","Costituzione","Padri Costituenti","1947"]},
+
+{y:"1 Gen 1948",cat:"cost",col:"#7F77DD",
+ title:"Entra in vigore la Costituzione Italiana",sub:"«La sovranità appartiene al popolo»",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Costituzione_della_Repubblica_Italiana_-_1948.jpg/440px-Costituzione_della_Repubblica_Italiana_-_1948.jpg",
+ icap:"La Costituzione della Repubblica Italiana, 1948 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=s-4DJbkpbmE",ytlbl:"La Costituzione spiegata — Rai Scuola",
+ txt:"<p>La Costituzione tutela <strong>diritti fondamentali, uguaglianza di genere, libertà di pensiero</strong> e il <strong>ripudio della guerra</strong>. È ancora oggi il fondamento della democrazia italiana. Nata per non ripetere mai più il fascismo.</p>",
+ tags:["Costituzione","Art.1","Repubblica","1948"]},
+
+/* ── DEMOCRAZIA IN CAMMINO ── */
+{era:"La democrazia in cammino (1948–oggi)",y:"1948",cat:"pol",col:"#378ADD",
+ title:"Elezioni del 18 aprile 1948",sub:"Il primo voto libero della Repubblica",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Elezioni_politiche_italiane_1948.jpg/480px-Elezioni_politiche_italiane_1948.jpg",
+ icap:"Manifesti elettorali del 18 aprile 1948 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=DHf1YrQXNaM",ytlbl:"Le elezioni del 1948 — Rai Storia",
+ txt:"<p>Le prime elezioni libere della Repubblica: la <strong>Democrazia Cristiana</strong> di De Gasperi vince con il 48,5%. Si confrontano due visioni del mondo — atlantismo e blocco sovietico — in piena Guerra Fredda. L'Italia sceglie l'Occidente.</p><p>Per la prima volta tutti i cittadini, uomini e donne, esercitano il diritto di voto garantito dalla Costituzione.</p>",
+ tags:["Elezioni","De Gasperi","DC","PCI","1948","Guerra Fredda"]},
+
+{y:"1970",cat:"dir",col:"#C0973A",
+ title:"Statuto dei Lavoratori e istituzione delle Regioni",sub:"Democrazia dal basso, diritti sul lavoro",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Statuto_dei_lavoratori_1970.jpg/440px-Statuto_dei_lavoratori_1970.jpg",
+ icap:"Lo Statuto dei Lavoratori, legge 300/1970 (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=r9o5MgBxKtM",ytlbl:"Lo Statuto dei Lavoratori — spiegato",
+ txt:"<p>Il <strong>1970</strong> è un anno cruciale: lo <strong>Statuto dei Lavoratori</strong> (legge 300) garantisce i diritti fondamentali nei luoghi di lavoro. Nello stesso anno nascono le <strong>Regioni</strong> a statuto ordinario, portando la democrazia più vicina ai cittadini.</p><p>È anche l'anno in cui viene introdotto il <strong>divorzio</strong>, confermato dal referendum del 1974.</p>",
+ tags:["Statuto Lavoratori","Regioni","Diritti","1970","Divorzio"]},
+
+{y:"1978",cat:"dir",col:"#C0973A",
+ title:"Anni di Piombo — la democrazia sotto attacco",sub:"Il terrorismo non ferma le istituzioni",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Aldo_Moro.jpg/400px-Aldo_Moro.jpg",
+ icap:"Aldo Moro, presidente della DC, rapito e ucciso dalle BR (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=SrLJm6GxZ1Y",ytlbl:"Gli anni di piombo — documentario",
+ txt:"<p>Il <strong>16 marzo 1978</strong> le Brigate Rosse rapiscono e poi uccidono <strong>Aldo Moro</strong>, presidente della DC e artefice del compromesso storico. Gli anni di piombo mettono alla prova la tenuta democratica del Paese.</p><p>Le istituzioni resistono. La risposta dello Stato non sospende le garanzie costituzionali: è la dimostrazione più alta della maturità della democrazia italiana.</p>",
+ tags:["Anni di Piombo","Brigate Rosse","Moro","Terrorismo","1978"]},
+
+{y:"1992–1994",cat:"pol",col:"#378ADD",
+ title:"Tangentopoli e la fine della Prima Repubblica",sub:"La rivoluzione giudiziaria cambia l'Italia",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Antonio_Di_Pietro.jpg/400px-Antonio_Di_Pietro.jpg",
+ icap:"Antonio Di Pietro, pm di Mani Pulite (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=qR4pGG6XJiY",ytlbl:"Mani Pulite — Tangentopoli",
+ txt:"<p>L'operazione <strong>Mani Pulite</strong> (1992–94) travolge i partiti della Prima Repubblica: DC, PSI e molti altri scompaiono. Il sistema di corruzione sistemica detto <strong>Tangentopoli</strong> viene smantellato dalla magistratura.</p><p>Con il referendum del <strong>1993</strong> gli italiani scelgono il sistema elettorale maggioritario. Nasce la Seconda Repubblica — più instabile, ma segno della vitalità democratica del Paese.</p>",
+ tags:["Tangentopoli","Mani Pulite","Prima Repubblica","1992","Di Pietro"]},
+
+{y:"2007",cat:"dir",col:"#C0973A",
+ title:"L'Italia e l'Unione Europea",sub:"Dal Trattato di Roma al Trattato di Lisbona",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/480px-Flag_of_Europe.svg.png",
+ icap:"Bandiera dell'Unione Europea (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=DP_oTBqiLQk",ytlbl:"Storia dell'Unione Europea",
+ txt:"<p>L'Italia è tra i fondatori della <strong>Comunità Europea</strong> (1957, Trattato di Roma). Il progetto europeo amplia la democrazia oltre i confini nazionali: parlamento, diritti, cittadinanza europea. Il <strong>Trattato di Lisbona</strong> del 2007 rafforza le istituzioni democratiche dell'UE.</p><p>Oggi la democrazia italiana è inscindibile dal quadro europeo: i valori dell'art. 2 del Trattato UE rispecchiano quelli della nostra Costituzione.</p>",
+ tags:["Unione Europea","Trattato di Roma","Cittadinanza Europea","Lisbona"]},
+
+{y:"2020–oggi",cat:"dir",col:"#C0973A",
+ title:"Riforma costituzionale: riduzione dei parlamentari",sub:"La democrazia si rinnova",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Parlamento_italiano_Camera.jpg/480px-Parlamento_italiano_Camera.jpg",
+ icap:"L'aula di Montecitorio, Camera dei Deputati (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=Nq7rCCEtq5c",ytlbl:"La riforma del Parlamento — spiegata",
+ txt:"<p>Con il referendum del <strong>20–21 settembre 2020</strong>, gli italiani approvano la riduzione del numero dei parlamentari: da 945 a <strong>600</strong> (400 deputati + 200 senatori). È la modifica costituzionale più significativa degli ultimi decenni.</p><p>La democrazia italiana continua a evolversi: dibattiti in corso su riforma presidenziale, autonomia differenziata, partecipazione dei giovani e voto a 18 anni per il Senato (già legge dal 2021).</p>",
+ tags:["Referendum 2020","Parlamento","Riforma Costituzionale","Voto 18 anni"]},
+
+{y:"Oggi",cat:"soc",col:"#1D9E75",
+ title:"La democrazia è nelle tue mani",sub:"Partecipare è un dovere civico",
+ img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Urna_elettorale_italiana.jpg/440px-Urna_elettorale_italiana.jpg",
+ icap:"Un'urna elettorale italiana (Wikimedia Commons)",
+ yturl:"https://www.youtube.com/watch?v=Uja3o_-MaYc",ytlbl:"Perché votare è importante",
+ txt:"<p>La democrazia non è conquistata una volta per sempre. Richiede <strong>partecipazione attiva</strong>: votare, informarsi, impegnarsi. L'art. 48 della Costituzione dice: <em>«Il voto è personale ed eguale, libero e segreto. Il suo esercizio è dovere civico»</em>.</p><p>Ogni generazione ha il compito di <strong>custodire e rinnovare</strong> la democrazia. Compreso tu — che stai leggendo questa timeline.</p>",
+ tags:["Voto","Partecipazione","Dovere Civico","Cittadinanza","Oggi"]}
+];
+
+let currentEra="";
+
+function build(){
+  const tl=document.getElementById('tl');
+  EV.forEach((e,i)=>{
+    if(e.era && e.era!==currentEra){
+      currentEra=e.era;
+      const div=document.createElement('div');
+      div.className='era-divider';
+      div.innerHTML=`<span>${e.era}</span>`;
+      div.dataset.era=e.era;
+      tl.appendChild(div);
+    }
+    const d=document.createElement('div');
+    d.className='tl-item';
+    d.dataset.cat=e.cat;
+    d.innerHTML=`
+      <div class="tl-num" style="background:${e.col}">${i+1}</div>
+      <div class="tl-card" id="c${i}" onclick="tog(${i})">
+        <div class="tl-head">
+          <span class="tl-badge">${e.y}</span>
+          <span class="tl-cdot" style="background:${e.col}"></span>
+          <div class="tl-titles">
+            <div class="tl-title">${e.title}</div>
+            <div class="tl-sub">${e.sub}</div>
+          </div>
+          <i class="ti ti-chevron-down tl-chev"></i>
+        </div>
+        <div class="tl-body">
+          <div class="img-zone">
+            <img src="${e.img}" alt="${e.title}" loading="lazy"
+              onerror="this.parentNode.innerHTML='<div class=ipl><span>🏛️</span><p>${e.title}</p></div>'">
+            <div class="icap">${e.icap}</div>
+          </div>
+          <a class="yt-btn" href="${e.yturl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+            <div class="yt-icon"></div>
+            <span>${e.ytlbl}</span>
+            <i class="ti ti-external-link" style="margin-left:auto;font-size:13px"></i>
+          </a>
+          <div class="tl-txt">${e.txt}</div>
+          <div class="tl-tags">${e.tags.map(t=>`<span class="tl-tag">${t}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    tl.appendChild(d);
+  });
+}
+
+function tog(i){document.getElementById('c'+i).classList.toggle('open')}
+
+function filt(cat,btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tl-item').forEach(it=>{
+    it.classList.toggle('hidden',cat!=='all'&&it.dataset.cat!==cat);
+  });
+}
+
+build();
+</script>
